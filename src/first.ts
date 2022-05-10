@@ -14,11 +14,6 @@ const getCountry = async (country: string) => {
   let { data } = await axios(`https://restcountries.com/v3.1/name/${country}`);
   data = { ...data[0] };
 
-  console.log({
-    capital: data.capital[0],
-    region: data.region,
-    numericCode: data.area,
-  });
   return {
     capital: data.capital,
     region: data.region,

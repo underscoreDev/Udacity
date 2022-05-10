@@ -1,17 +1,11 @@
-import countries from "../first";
+import supertest from "supertest";
+import app from "../index";
 
-it("should get basic data on the country canada", async () => {
-  const data = await countries.getCountry("canada");
-  expect(data).toEqual({
-    capital: "Ottawa",
-    region: "Americas",
-    numericCode: 9984670,
+const request = supertest(app);
+
+describe("Test endpoint responses", () => {
+  it("gets the api endpoint", async () => {
+    const response = await request.get("/api/v1/students");
+    expect(response.status).toBe(200);
   });
 });
-
-/** Add test for getRegionCountries function here */
-
-// it("should get capitals of NAFTA countries", async () => {
-//   const data = await countries.getRegionCapitals("nafta");
-//   expect(data).toEqual(["Ottawa", "Mexico City", "Washington, D.C."]);
-// });
