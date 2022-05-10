@@ -1,16 +1,43 @@
-import arrays from "./utils/array";
-import numbers from "./utils/numbers";
-import strings from "./utils/strings";
+/* eslint-disable valid-jsdoc */
+/** Use Axios to get data from restcountries api */
+import axios from "axios";
 
-const numArr = [3, 4, 5, 6];
-const wordArr = ["cat", "dog", "rabbit", "bird"];
-const arrSum = arrays.addArr(numArr);
-const mixArr = arrays.concatArr(numArr, wordArr);
-const myNum = ("15" as unknown as number) % 2;
-const five = parseInt("5");
+/** Use the free API https://restcountries.eu/
+ * You will use the following endpoints
+ * https://restcountries.eu/rest/v2/name/{name} for countries by name
+ * https://restcountries.eu/rest/v2/regionalbloc/{regionalbloc} for region blocks
+ */
 
-console.log(arrays.cut3(mixArr));
-console.log(numbers.sum(arrSum, myNum));
-console.log(strings.capitalize("the quick brown fox"));
-console.log(numbers.multiply(five, 8));
-console.log(arrays.lgNum(mixArr));
+/** Create getCountry Function here */
+
+const getCountry = async (country: string) => {
+  let { data } = await axios(`https://restcountries.com/v3.1/name/${country}`);
+  data = { ...data[0] };
+
+  console.log({
+    capital: data.capital[0],
+    region: data.region,
+    numericCode: data.area,
+  });
+  return {
+    capital: data.capital,
+    region: data.region,
+    numericCode: data.area,
+  };
+};
+
+/** Create a test for this getRegion function */
+const getRegionCountries = async (region: string) => {
+  const { data } = await axios(`https://restcountries.com/v3.1/region/${region}`);
+  const countries: any[] = [];
+  data.forEach((d: any) => countries.push(d.name.common));
+  console.log(countries);
+  return countries;
+};
+getCountry("canada");
+// getRegionCountries("europe");
+
+/** Create getRegionCapitals function here */
+const getRegionCapitals = async () => {};
+
+export default { getCountry, getRegionCountries, getRegionCapitals };
